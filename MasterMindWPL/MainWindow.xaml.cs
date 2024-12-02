@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,7 @@ namespace MasterMindWPL
         bool _isDebugMode = false;
         int _attempts;
         int _score;
+        string _name;
         public MainWindow()
         {
             _score = 100;
@@ -39,6 +41,7 @@ namespace MasterMindWPL
                 this.Title = this.Title + " " + color;
                 TxtCode.Text = TxtCode.Text + $" {color}";
             }
+            StartGame();
         }
 
         public void AddColorsToDictionary()
@@ -273,6 +276,17 @@ namespace MasterMindWPL
             {
                 this.Title = this.Title + " " + color;
                 TxtCode.Text = TxtCode.Text + $" {color}";
+            }
+            StartGame();
+        }
+
+        public void StartGame()
+        {
+            _name = Interaction.InputBox("Wat is jouw naam?", "START GAME", null);
+            while (string.IsNullOrEmpty(_name))
+            {
+                MessageBox.Show("Geef een naam!", "Warn");
+                _name = Interaction.InputBox("Wat is jouw naam?", "START GAME", null);
             }
         }
 
