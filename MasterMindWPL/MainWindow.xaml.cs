@@ -194,34 +194,10 @@ namespace MasterMindWPL
                 codeString = codeString + $" {color}";
             }
 
-            if (_attempts < 10)
+            if (_attempts == 10)
             {
-                if (right == 4)
-                {
-                    MessageBoxButton buttons = MessageBoxButton.YesNo;
-                    MessageBoxResult result = MessageBox.Show($"Code is gekraakt in {_attempts} pogingen. Wil je nog eens?", "WINNER", buttons, MessageBoxImage.Information);
-                    if (result == MessageBoxResult.Yes) 
-                    {
-                        RestartGame();
-                    }
-                    else if (result == MessageBoxResult.No)
-                    {
-                        Application.Current.Shutdown();
-                    }
-                }
-            }
-            else
-            {
-                MessageBoxButton buttons = MessageBoxButton.YesNo;
-                MessageBoxResult result = MessageBox.Show($"You failed! De correcte code was {codeString}.\n Nog eens proberen?", "FAILED", buttons, MessageBoxImage.Question);
-                if (result == MessageBoxResult.Yes)
-                {
-                    RestartGame();
-                }
-                else if (result == MessageBoxResult.No)
-                {
-                    Application.Current.Shutdown();
-                }
+                MessageBox.Show("Uh oh, verloren.", "FAILED", MessageBoxButton.OK, MessageBoxImage.Error);
+                RestartGame();
             }
             _attempts++;
             TxtPogingen.Text = $"Poging: {_attempts} / 10\nScore: {_score}";
@@ -317,7 +293,7 @@ namespace MasterMindWPL
 
         private void menuAfsluiten_Click(object sender, RoutedEventArgs e)
         {
-
+            Application.Current.Shutdown();
         }
 
         private void menuPogingen_Click(object sender, RoutedEventArgs e)
