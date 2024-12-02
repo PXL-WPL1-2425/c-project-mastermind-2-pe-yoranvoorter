@@ -28,10 +28,12 @@ namespace MasterMindWPL
         int _score;
         string _name;
         string[] _highscores = new string[15];
+        int _maxAttempts;
         public MainWindow()
         {
             _score = 100;
             _attempts = 1;
+            _maxAttempts = 10;
             InitializeComponent();
             AddColorsToDictionary();
             FillComboBoxes();
@@ -202,13 +204,13 @@ namespace MasterMindWPL
                 RestartGame();
             }
 
-            if (_attempts == 10)
+            if (_attempts == _maxAttempts)
             {
                 MessageBox.Show("Uh oh, verloren.", "FAILED", MessageBoxButton.OK, MessageBoxImage.Error);
                 RestartGame();
             }
             _attempts++;
-            TxtPogingen.Text = $"Poging: {_attempts} / 10\nScore: {_score}";
+            TxtPogingen.Text = $"Poging: {_attempts} / {_maxAttempts}\nScore: {_score}";
         }
 
         public void AddToHistory(Ellipse ellipse1, Ellipse ellipse2, Ellipse ellipse3, Ellipse ellipse4)
@@ -312,7 +314,23 @@ namespace MasterMindWPL
 
         private void menuPogingen_Click(object sender, RoutedEventArgs e)
         {
-
+            string numOfAttempts = Interaction.InputBox("Maximum aantal pogingen (3 - 20)", "10");
+            while (string.IsNullOrEmpty(numOfAttempts))
+            {
+                MessageBox.Show("Geef een nummer");
+                numOfAttempts = Interaction.InputBox("Maximum aantal pogingen (3 - 20)", "10");
+            }
+            if (Convert.ToInt32(numOfAttempts) < 3 || Convert.ToInt32(numOfAttempts) > 20)
+            {
+                MessageBox.Show("Geef een nummer tussen 3 & 20", "FOUTIEVE INVOER");
+                numOfAttempts = Interaction.InputBox("Maximum aantal pogingen (3 - 20)", "10");
+                while (string.IsNullOrEmpty(numOfAttempts))
+                {
+                    MessageBox.Show("Geef een nummer");
+                    numOfAttempts = Interaction.InputBox("Maximum aantal pogingen (3 - 20)", "10");
+                }
+            }
+            _maxAttempts = Convert.ToInt32(numOfAttempts);
         }
     }
 }
