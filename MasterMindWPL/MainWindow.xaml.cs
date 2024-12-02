@@ -27,6 +27,7 @@ namespace MasterMindWPL
         int _attempts;
         int _score;
         string _name;
+        string[] _highscores = new string[15];
         public MainWindow()
         {
             _score = 100;
@@ -185,13 +186,20 @@ namespace MasterMindWPL
             }
         }
 
-        public void CheckAttempt(int right)
+        public void CheckAttempt(int rightGuesses)
         {
             string codeString = "";
 
             foreach(string color in _code)
             {
                 codeString = codeString + $" {color}";
+            }
+            if (rightGuesses == 4)
+            {
+                MessageBox.Show($"Gewonnen! In {_attempts} pogingen", "VICTORY",MessageBoxButton.OK, MessageBoxImage.Information);
+                string[] highscoreDetails = new string[1] { $"{_name} - {_attempts} pogingen - {_score}/100" };
+                _highscores.Concat(highscoreDetails);
+                RestartGame();
             }
 
             if (_attempts == 10)
@@ -288,7 +296,13 @@ namespace MasterMindWPL
 
         private void menuHighScores_Click(object sender, RoutedEventArgs e)
         {
+            string highScoreRanking = "";
 
+            foreach(string highscore in _highscores)
+            {
+                highScoreRanking = highScoreRanking + $"{highscore}\n";
+            }
+            MessageBox.Show(highScoreRanking, "Mastermind highscores", MessageBoxButton.OK);
         }
 
         private void menuAfsluiten_Click(object sender, RoutedEventArgs e)
